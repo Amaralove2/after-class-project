@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the body and container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2.5rem; /* Increased padding */
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            text-align: center;
+            max-width: 90%; /* Responsive width */
+            width: 500px; /* Max width for larger screens */
+        }
+        h1 {
+            color: #2c3e50; /* Darker heading color */
+            margin-bottom: 1.5rem;
+            font-size: 2.25rem; /* Larger font size */
+            font-weight: 700; /* Bold font */
+        }
+        button {
+            background-color: #4a90e2; /* Blue button */
+            color: white;
+            padding: 0.8rem 1.8rem; /* Larger padding for button */
+            border-radius: 0.75rem; /* Rounded button */
+            font-size: 1.1rem; /* Larger font size for button */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Button shadow */
+        }
+        button:hover {
+            background-color: #357ABD; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+        button:active {
+            transform: translateY(0); /* Press effect */
+        }
+        #output {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #ecf0f1; /* Light background for output */
+            border-radius: 1rem;
+            min-height: 150px; /* Minimum height for output area */
+            text-align: left;
+            overflow-y: auto; /* Scroll for many numbers */
+            max-height: 300px; /* Max height for scrollable area */
+            border: 1px solid #dcdcdc; /* Light border */
+        }
+        #output p {
+            margin: 0.5rem 0;
+            color: #34495e; /* Dark text for numbers */
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Number Generator</h1>
+        <p class="text-gray-600 mb-6">
+            Click the button to generate a set of random numbers using a `while` loop,
+            demonstrating the block scope of the `let` keyword.
+        </p>
+        <button id="generateBtn">Generate Numbers</button>
+        <div id="output">
+            <!-- Random numbers will be displayed here -->
+            <p class="text-gray-400">Numbers will appear here...</p>
+        </div>
+    </div>
+
+    <script>
+        // Get references to the button and output div
+        const generateBtn = document.getElementById('generateBtn');
+        const outputDiv = document.getElementById('output');
+
+        // Add an event listener to the button
+        generateBtn.addEventListener('click', () => {
+            // Clear previous output
+            outputDiv.innerHTML = '';
+
+            let count = 0; // Initialize a counter for the while loop
+            const maxNumbers = 10; // Define how many random numbers to generate
+
+            // Use a while loop to generate and print random numbers
+            while (count < maxNumbers) {
+                // 'let' keyword ensures that 'randomNumber' is block-scoped
+                // This means 'randomNumber' is a new variable for each iteration of the loop.
+                let randomNumber = Math.floor(Math.random() * 100) + 1; // Generates a random integer between 1 and 100
+
+                // Create a new paragraph element for each number
+                const p = document.createElement('p');
+                p.textContent = `Generated Number (Iteration ${count + 1}): ${randomNumber}`;
+                outputDiv.appendChild(p);
+
+                count++; // Increment the counter
+            }
+
+            // After the loop, 'randomNumber' is not accessible here if it were truly block-scoped
+            // (which it is within the while loop's block).
+            // For demonstration, let's add a message indicating completion.
+            const completionMessage = document.createElement('p');
+            completionMessage.textContent = '--- Generation Complete ---';
+            completionMessage.classList.add('font-bold', 'mt-4', 'text-gray-700');
+            outputDiv.appendChild(completionMessage);
+        });
+    </script>
+</body>
+</html>
