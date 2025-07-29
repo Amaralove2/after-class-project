@@ -1,213 +1,198 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Array Mapper and Sorter</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>My Awesome Game Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the body and container */
+        /* This is some simple styling to make it look a little nicer */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            /* Light gray background */
+            /* Using Inter font */
+            margin: 20px;
+            background-color: #f0f8ff;
+            /* Light blue background */
+            color: #333;
             display: flex;
-            justify-content: center;
+            /* Use flexbox for centering */
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 1rem;
-            /* Add some padding for smaller screens */
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 2.5rem;
-            /* Increased padding */
-            border-radius: 1.5rem;
-            /* More rounded corners */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            /* Softer shadow */
-            text-align: center;
-            max-width: 90%;
-            /* Responsive width */
-            width: 600px;
-            /* Max width for larger screens */
+            justify-content: center;
+            min-height: 90vh;
+            /* Ensure it takes up most of the viewport height */
+            padding: 20px;
+            box-sizing: border-box;
+            /* Include padding in element's total width and height */
         }
 
         h1 {
-            color: #2c3e50;
-            /* Darker heading color */
-            margin-bottom: 1.5rem;
-            font-size: 2.25rem;
-            /* Larger font size */
-            font-weight: 700;
-            /* Bold font */
+            color: #4682b4;
+            /* Steel blue */
+            text-align: center;
+            /* Center the heading */
+            margin-bottom: 10px;
         }
 
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            /* Allow buttons to wrap on smaller screens */
-            justify-content: center;
-            gap: 1rem;
-            /* Space between buttons */
-            margin-top: 2rem;
+        p {
+            text-align: center;
+            /* Center the paragraph */
+            margin-bottom: 20px;
         }
 
-        button {
-            background-color: #4a90e2;
-            /* Blue button */
-            color: white;
-            padding: 0.8rem 1.8rem;
-            /* Larger padding for button */
-            border-radius: 0.75rem;
-            /* Rounded button */
-            font-size: 1.1rem;
-            /* Larger font size for button */
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            border: none;
-            outline: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            /* Button shadow */
-            flex-grow: 1;
-            /* Allow buttons to grow */
-            max-width: 200px;
-            /* Max width for individual buttons */
+        .game-list {
+            background-color: #ffffff;
+            border: 1px solid #add8e6;
+            /* Light blue border */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            /* Limit width for better readability */
+            width: 100%;
+            /* Make it responsive */
+            box-sizing: border-box;
         }
 
-        button:hover {
-            background-color: #357ABD;
-            /* Darker blue on hover */
-            transform: translateY(-2px);
-            /* Slight lift on hover */
+        .game-item {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #eee;
+            border-radius: 4px;
+            /* Rounded corners for items */
+            padding: 10px;
+            /* Add padding to items */
         }
 
-        button:active {
-            transform: translateY(0);
-            /* Press effect */
+        .game-item:last-child {
+            border-bottom: none;
+            /* No border for the last item */
         }
 
-        .output-section {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: #ecf0f1;
-            /* Light background for output */
-            border-radius: 1rem;
-            min-height: 150px;
-            /* Minimum height for output area */
-            text-align: left;
-            border: 1px solid #dcdcdc;
-            /* Light border */
+        strong {
+            color: #008080;
+            /* Teal */
         }
 
-        .output-section p {
-            margin: 0.5rem 0;
-            color: #34495e;
-            /* Dark text for numbers */
-            font-size: 1rem;
+        h3 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: #263238;
+            /* Darker blue-gray */
         }
 
-        .output-section span {
-            font-weight: bold;
-            color: #2c3e50;
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .game-list {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Array Mapper and Sorter</h1>
-        <p class="text-gray-600 mb-6">
-            This tool demonstrates array mapping and sorting.
-            An initial array will be displayed, then mapped by multiplying each element by 5.
-            You can then sort the mapped array in ascending or descending order.
-        </p>
 
-        <div class="output-section">
-            <p>Original Array: <span id="originalArray"></span></p>
-            <p>Mapped Array: <span id="mappedArray"></span></p>
-            <p>Sorted Array: <span id="sortedArray"></span></p>
-        </div>
+    <h1>My Top Web Games!</h1>
+    <p>Here's a list of some cool games, read from JSON data:</p>
 
-        <div class="button-group">
-            <button id="mapArrayBtn">Map Array (x5)</button>
-            <button id="sortAscBtn">Sort Ascending</button>
-            <button id="sortDescBtn">Sort Descending</button>
-        </div>
+    <div id="game-collection" class="game-list">
+        <!-- JavaScript will fill this part with our game list! -->
+        Loading games...
     </div>
 
     <script>
-        // Get references to the output elements and buttons
-        const originalArraySpan = document.getElementById('originalArray');
-        const mappedArraySpan = document.getElementById('mappedArray');
-        const sortedArraySpan = document.getElementById('sortedArray');
-        const mapArrayBtn = document.getElementById('mapArrayBtn');
-        const sortAscBtn = document.getElementById('sortAscBtn');
-        const sortDescBtn = document.getElementById('sortDescBtn');
+        // --- STEP 1: Our Game Collection in JSON Format ---
+        // This is a TEXT string that holds information about multiple games.
+        // It's like a list written in a special code.
+        const gamesJSON = `[
+            {
+                "title": "Roblox",
+                "genre": "Sandbox/MMO",
+                "releaseYear": 2006,
+                "isMultiplayer": true
+            },
+            {
+                "title": "Draw It",
+                "genre": "Drawing/Party",
+                "releaseYear": 2020,
+                "isMultiplayer": true
+            },
+            {
+                "title": "Dress Up",
+                "genre": "Fashion/Simulation",
+                "releaseYear": 2022,
+                "isMultiplayer": false
+            },
+            {
+                "title": "Subway Surfer",
+                "genre": "Endless Runner",
+                "releaseYear": 2012,
+                "isMultiplayer": false
+            }
+        ]`;
 
-        // Define the initial array
-        let originalNumbers = [3, 1, 4, 1, 5, 9, 2, 6];
-        let mappedNumbers = []; // To store the mapped array
-        let currentSortedNumbers = []; // To store the currently sorted array
+        // --- STEP 2: Use JavaScript to "understand" the JSON text ---
+        // JSON.parse() takes the JSON TEXT and turns it into a JavaScript LIST (called an Array)
+        // of JavaScript OBJECTS. Now our program can work with it!
+        const gameCollection = JSON.parse(gamesJSON);
 
-        /**
-         * Renders the arrays to the display.
-         */
-        function renderArrays() {
-            originalArraySpan.textContent = originalNumbers.join(', ');
-            mappedArraySpan.textContent = mappedNumbers.length > 0 ? mappedNumbers.join(', ') : 'Not yet mapped';
-            sortedArraySpan.textContent = currentSortedNumbers.length > 0 ? currentSortedNumbers.join(', ') : 'Not yet sorted';
+        // --- STEP 3: Display each game on the webpage ---
+        // First, we find the special spot (the div) where we want to show our games.
+        const gameCollectionDiv = document.getElementById('game-collection');
+
+        // Clear the "Loading games..." message
+        gameCollectionDiv.innerHTML = '';
+
+        // Now, we go through EACH game in our JavaScript list (array).
+        // For each game, we create some HTML to display its details.
+        gameCollection.forEach(game => {
+            // Create a new div for each game item
+            const gameItem = document.createElement('div');
+            gameItem.classList.add('game-item'); // Add a class for styling
+
+            // Populate the div with game details
+            gameItem.innerHTML = `
+                <h3>${game.title}</h3>
+                <p><strong>Genre:</strong> ${game.genre}</p>
+                <p><strong>Released:</strong> ${game.releaseYear}</p>
+                <p><strong>Multiplayer:</strong> ${game.isMultiplayer ? 'Yes' : 'No'}</p>
+            `;
+            // Add this new game's information to our webpage
+            gameCollectionDiv.appendChild(gameItem);
+        });
+
+        console.log("---------------------------------------");
+
+        // --- STEP 4 (Bonus): Adding a new game and converting it back to JSON ---
+        // Let's say you just got a new favorite game!
+        // This part is just for showing how stringify works, it won't add to the displayed list.
+        const anotherNewGame = {
+            title: "New Adventure Game",
+            genre: "RPG",
+            releaseYear: 2024,
+            isMultiplayer: true
+        };
+
+        // We can turn this JavaScript object back into a JSON text string.
+        // This is like packing it up to send to a friend or save it!
+        const anotherNewGameJSON = JSON.stringify(anotherNewGame, null, 2); // The 'null, 2' makes it look nice and readable
+
+        console.log("Here's another new game as a JSON string (check your browser's console):");
+        console.log(anotherNewGameJSON);
+        /* The output in the browser's console will look like this:
+        {
+          "title": "New Adventure Game",
+          "genre": "RPG",
+          "releaseYear": 2024,
+          "isMultiplayer": true
         }
+        */
 
-        /**
-         * Maps the original array by multiplying each element by 5.
-         */
-        mapArrayBtn.addEventListener('click', () => {
-            // Use the map() method to create a new array where each element
-            // is the original element multiplied by 5.
-            mappedNumbers = originalNumbers.map(number => number * 5);
-            // After mapping, the sorted array should reflect the new mapped numbers
-            // in their original mapped order before any sorting.
-            currentSortedNumbers = [...mappedNumbers]; // Copy the mapped array
-            renderArrays(); // Update the display
-        });
-
-        /**
-         * Sorts the mapped array in ascending order.
-         */
-        sortAscBtn.addEventListener('click', () => {
-            if (mappedNumbers.length === 0) {
-                // Show a message if the array hasn't been mapped yet
-                mappedArraySpan.textContent = 'Please map the array first!';
-                return;
-            }
-            // Sort the mappedNumbers in ascending order.
-            // The slice() method creates a shallow copy of the array, so the original
-            // mappedNumbers array is not modified directly.
-            currentSortedNumbers = mappedNumbers.slice().sort((a, b) => a - b);
-            renderArrays(); // Update the display
-        });
-
-        /**
-         * Sorts the mapped array in descending order.
-         */
-        sortDescBtn.addEventListener('click', () => {
-            if (mappedNumbers.length === 0) {
-                // Show a message if the array hasn't been mapped yet
-                mappedArraySpan.textContent = 'Please map the array first!';
-                return;
-            }
-            // Sort the mappedNumbers in descending order.
-            // The slice() method creates a shallow copy of the array.
-            currentSortedNumbers = mappedNumbers.slice().sort((a, b) => b - a);
-            renderArrays(); // Update the display
-        });
-
-        // Initial render when the page loads
-        renderArrays();
     </script>
 </body>
 
